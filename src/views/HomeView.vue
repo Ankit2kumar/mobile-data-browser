@@ -73,46 +73,47 @@ export default Vue.extend({
       filterdList: [] as ProductList[],
       searchKey: "",
       sortKey: "",
+      reverse:1,
     };
   },
   methods: {
     sortBy(name: string) {
       //sorting
-      if (name == "country") {
-        this.sortKey = this.sortKey == "country" ? "" : name;
-        this.filterdList = this.filterdList.sort((a, b) => {
-          if (a.carrier.country_code < b.carrier.country_code) {
-            return this.sortKey == "country" ? 1 : -1;
-          }
-          if (a.carrier.country_code > b.carrier.country_code) {
-            return this.sortKey == "country" ? -1 : 1;
-          }
-          return 0;
-        });
-      } else if (name == "carrier") {
-        this.sortKey = this.sortKey == "carrier" ? "" : name;
-        this.filterdList = this.filterdList.sort((a, b) => {
-          if (a.carrier.name < b.carrier.name) {
-            return this.sortKey == "carrier" ? 1 : -1;
-          }
-          if (a.carrier.name > b.carrier.name) {
-            return this.sortKey == "carrier" ? 1 : -1;
-          }
-          return 0;
-        });
-      } else {
-        this.sortKey = this.sortKey == "plan" ? "" : name;
-        this.filterdList = this.filterdList.sort((a, b) => {
-          if (a.plan.size < b.plan.size) {
-            return this.sortKey == "plan" ? 1 : -1;
-          }
-          if (a.plan.size > b.plan.size) {
-            return this.sortKey == "plan" ? 1 : -1;
-          }
-          return 0;
-        });
-      }
-    },
+     
+    if (name == "country") {
+      this.filterdList = this.filterdList.sort((a, b) => {
+        if (
+          a.carrier.country_code.toLowerCase() <
+          b.carrier.country_code.toLowerCase()
+        )
+          return -1 * this.reverse;
+        else if (
+          a.carrier.country_code.toLowerCase() >
+          b.carrier.country_code.toLowerCase()
+        )
+          return 1 * this.reverse;
+        return 0;
+      });
+      this.reverse = this.reverse == -1 ? 1 : -1;
+    } else if (name == "carrier") {
+      this.filterdList = this.filterdList.sort((a, b) => {
+        if (a.carrier.name.toLowerCase() < b.carrier.name.toLowerCase())
+          return -1 * this.reverse;
+        else if (a.carrier.name.toLowerCase() > b.carrier.name.toLowerCase())
+          return 1 * this.reverse;
+        return 0;
+      });
+      this.reverse = this.reverse == -1 ? 1 : -1;
+    } else if (name == "plan") {
+      this.filterdList = this.filterdList.sort((a, b) => {
+        console.log(a.plan.size,b.plan.size)
+        const x=a.plan.unit=='GB'? a.plan.size*1000: a.plan.size
+        const y=b.plan.unit=='GB'? b.plan.size*1000: b.plan.size
+        return this.reverse==1? x-y:y-x
+      });
+      this.reverse = this.reverse == -1 ? 1 : -1;
+    }
+},
     filterBy() {
       //filter the list
       this.filterdList = this.productList.filter(
