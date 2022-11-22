@@ -7,7 +7,7 @@
         placeholder="Search By"
         @keyup="filterBy()"
       />
-      <label style="margin-left: 5000px">Sort By</label>
+      <label style="margin-left: 30px">Sort By</label>
       <a href="#" class="sort" @click="sortBy('country')">Country Name</a>
       <a href="#" class="sort" @click="sortBy('carrier')">Carrier</a>
       <a href="#" class="sort" @click="sortBy('plan')">Plan Size</a>
