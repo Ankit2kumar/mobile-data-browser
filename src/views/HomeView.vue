@@ -223,4 +223,15 @@ export default Vue.extend({
 .sort {
   margin: 0px 10px 0px 10px;
 }
+@media only screen and (max-width: 700px) {
+  .product {
+    width: 50%!important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .product {
+    width: 100%!important;
+  }
+}
 </style>
